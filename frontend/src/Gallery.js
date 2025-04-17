@@ -18,7 +18,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { getImages } from '../utils/api';
+import { getImages } from './api';
 
 const GalleryItem = ({ image }) => {
   const bgColor = useColorModeValue('white', 'gray.800');

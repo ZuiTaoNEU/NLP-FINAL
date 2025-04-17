@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
 // Import components
-import NavBar from './components/NavBar';
-import ImageGenerator from './pages/ImageGenerator';
-import Gallery from './pages/Gallery';
-import ImageDetails from './pages/ImageDetails';
-import RetrainModel from './pages/RetrainModel';
+import NavBar from './NavBar';
+import ImageGenerator from './ImageGenerator';
+import Gallery from './Gallery';
+import ImageDetails from './ImageDetails';
+import RetrainModel from './RetrainModel';
 
 // Define theme
 const theme = extendTheme({

@@ -35,7 +35,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { InfoIcon, RepeatIcon } from '@chakra-ui/icons';
-import { retrain, getTrainingStatus } from '../utils/api';
+import { retrain, getTrainingStatus } from './api';
 
 const RetrainModel = () => {
   const [learningRate, setLearningRate] = useState(0.00001);
@@ -238,7 +238,6 @@ const RetrainModel = () => {
               <Progress value={progress} size="sm" colorScheme="blue" />
               <HStack>
                 <Text>Epoch: {trainingStatus?.current_epoch || 0}/{numEpochs}</Text>
-                <Spacer />
                 <Text>Loss: {trainingStatus?.current_loss?.toFixed(4) || 'N/A'}</Text>
               </HStack>
             </VStack>

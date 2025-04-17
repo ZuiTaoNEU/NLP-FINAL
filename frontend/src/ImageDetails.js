@@ -35,7 +35,7 @@ import {
   getImageDetails,
   generateVariations,
   saveFeedback,
-} from '../utils/api';
+} from './api';
 
 const ImageDetails = () => {
   const { id } = useParams();

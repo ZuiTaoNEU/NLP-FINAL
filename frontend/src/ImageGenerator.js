@@ -29,7 +29,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { DownloadIcon, StarIcon, InfoIcon, RepeatIcon } from '@chakra-ui/icons';
-import { generateImage } from '../utils/api';
+import { generateImage } from './api';
 
 const ImageGenerator = () => {
   const [prompt, setPrompt] = useState('');
