@@ -6,7 +6,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "50011:5000"
+      - "5000:5000"
     volumes:
       - ./backend:/app
       - ./models:/app/models
