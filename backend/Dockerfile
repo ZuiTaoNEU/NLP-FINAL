@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
+FROM pytorch/pytorch:latest
 
 WORKDIR /app
 
@@ -10,6 +10,11 @@ RUN apt-get update && apt-get install -y \
 
 # Copy requirements first for better caching
 COPY requirements.txt .
+
+# Modify requirements to use compatible versions
+RUN sed -i 's/diffusers==0.19.3/diffusers==0.19.0/g' requirements.txt || \
+    sed -i 's/diffusers==0.33.1/diffusers==0.19.0/g' requirements.txt || \
+    echo "No specific diffusers version found to modify"
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
