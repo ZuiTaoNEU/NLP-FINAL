@@ -1,4 +1,4 @@
-# Full-Stack Text-to-Image Generative AI Web Application
+# Text-to-Image Generative AI Web Application
 
 This project implements a full-stack web application using the Stable Diffusion model to generate images from text prompts. The implementation includes both a Python backend for model fine-tuning and inference, and a React frontend for user interaction.
 
@@ -86,32 +86,91 @@ CREATE TABLE images (
 )
 ```
 
-## Setup and Installation
+## Getting Started
 
-### Backend Setup
+### 1. Set up your development environment
 
-1. Clone the repository
-2. Create a virtual environment
-3. Install dependencies:
-   ```
-   pip install -r backend/requirements.txt
-   ```
-4. Run the Flask application:
-   ```
-   python backend/app.py
-   ```
+First, make sure you have the following prerequisites installed:
+- Docker and Docker Compose (for containerized setup)
+- Python 3.8+ (for local backend development)
+- Node.js and npm (for local frontend development)
+- Git (for version control)
 
-### Frontend Setup
+### 2. Clone or create the project structure
 
-1. Navigate to the frontend directory
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Start the development server:
-   ```
-   npm start
-   ```
+Create the project directory structure as described:
+
+```bash
+mkdir -p stable-diffusion-app/backend stable-diffusion-app/frontend stable-diffusion-app/models stable-diffusion-app/data
+cd stable-diffusion-app
+```
+
+### 3. Set up the files
+
+Add all the files we've created to their appropriate locations in your directory structure:
+- Place all the backend Python files in the `backend/` directory
+- Place all the React files in the `frontend/` directory
+- Place the Docker files in their respective locations:
+  - `docker-compose.yml` in the root directory
+  - Backend `Dockerfile` in the `backend/` directory
+  - Frontend `Dockerfile` in the `frontend/` directory
+
+### 4. Using Docker (Recommended for Production)
+
+The simplest way to test everything is using Docker:
+
+```bash
+docker compose up --build
+```
+
+This will:
+- Build both your frontend and backend containers
+- Set up the appropriate network between them
+- Mount volumes for persistent data storage
+- Start both services with the correct environment variables
+
+Once everything is running:
+- The frontend will be available at http://localhost:3000
+- The backend API will be available at http://localhost:5001/api
+
+### 5. Running Locally (Better for Development)
+
+For development, you might want to run things locally for faster iterations:
+
+**Backend:**
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm start
+```
+
+## Testing the Application
+
+Once your application is running:
+
+1. **Generate your first image**:
+   - Go to http://localhost:3000
+   - Enter a text prompt like "A beautiful sunset over mountains"
+   - Adjust parameters if desired
+   - Click "Generate Image"
+
+2. **View your gallery**:
+   - Navigate to the Gallery page to see all generated images
+   - Click on an image to view details
+
+3. **Create variations**:
+   - From the image details page, you can create variations of an image
+
+4. **Retrain the model**:
+   - After generating several images and providing feedback, try retraining the model
+   - Note that training will take significant time and resources, especially on CPU
 
 ## Training and Fine-Tuning
 
@@ -124,6 +183,67 @@ The model fine-tuning process can be initiated through:
    ```
 
 By default, the fine-tuning process starts with the pre-trained Stable Diffusion v1-4 model and updates only the U-Net component using the images in the database.
+
+## Important Testing Considerations
+
+- **GPU Requirements**: For reasonable performance, you'll need a CUDA-compatible GPU, especially for model training. Without it, image generation will be very slow.
+
+- **Memory Usage**: The Stable Diffusion model requires significant RAM (at least 8GB) and VRAM (at least 4GB for inference, 8GB+ for training).
+
+- **First-time Downloads**: On first run, the system will download the base Stable Diffusion model (~4GB), which may take some time.
+
+- **Dataset Size**: The HuggingFace dataset is quite large and will be downloaded during training.
+
+## Troubleshooting
+
+If you encounter issues:
+
+- **CUDA errors**: Ensure you have the correct CUDA toolkit installed that matches your PyTorch version
+- **Memory errors**: Try reducing batch size or image dimensions
+- **API connection errors**: Check that your frontend is correctly configured to connect to the backend URL
+- **Platform compatibility**: If using Mac with Apple Silicon (M1/M2), specify the platform in docker-compose.yml
+
+## For Apple Silicon Macs
+
+If using an Apple Silicon Mac (M1/M2/M3), update your docker-compose.yml to specify the platform:
+
+```yaml
+services:
+  backend:
+    platform: linux/arm64  # For Apple Silicon Macs
+    # other settings...
+    
+  frontend:
+    platform: linux/arm64  # For Apple Silicon Macs
+    # other settings...
+```
+
+## Project Structure
+
+```
+stable-diffusion-app/
+├── docker-compose.yml           # Main Docker Compose configuration
+├── backend/                     
+│   ├── Dockerfile               # Backend Docker configuration
+│   ├── app.py                   # Flask API server
+│   ├── model.py                 # Stable Diffusion model implementation
+│   ├── fine_tuning.py           # Training pipeline
+│   ├── inference.py             # Image generation service
+│   ├── utils.py                 # Utility functions
+│   └── requirements.txt         # Python dependencies
+├── frontend/                    
+│   ├── Dockerfile               # Frontend Docker configuration
+│   ├── public/                  # Static assets
+│   ├── src/
+│   │   ├── components/          # Reusable UI components
+│   │   ├── pages/               # Page components
+│   │   ├── utils/               # Utility functions
+│   │   ├── App.js               # Main application component 
+│   │   └── index.js             # React entry point
+│   └── package.json             # Node.js dependencies
+├── models/                      # Mounted volume for model storage
+└── data/                        # Mounted volume for database storage
+```
 
 ## Production Considerations
 
@@ -147,3 +267,7 @@ Potential improvements to the system:
 - Advanced prompt engineering tools
 - Batch processing of multiple prompts
 - User galleries and sharing options
+
+## License
+
+This project is for educational purposes. The Stable Diffusion model is subject to its own license terms.
