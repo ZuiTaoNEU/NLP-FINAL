@@ -27,6 +27,7 @@ Place the frontend Dockerfile in the frontend/ directory
 From the root directory, run:
 
 bashdocker-compose up --build
+
 This will:
 
 Build both your frontend and backend containers
