@@ -6,7 +6,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "5001:5000"  # Using port 5001 on host to avoid conflicts
     volumes:
       - ./backend:/app
       - ./models:/app/models
@@ -16,25 +16,19 @@ services:
       - MODEL_DIR=/app/models
       - DB_PATH=/app/data/images.db
     command: python app.py
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+    # Removed GPU requirements
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      - REACT_APP_API_URL=http://localhost:5000/api
+      - REACT_APP_API_URL=http://localhost:5001/api
     depends_on:
       - backend
     command: npm start
